@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import (QApplication, QVBoxLayout, QWidget,
 from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtCore import Qt
 import sys
+import controller
  
 class Window(QWidget):
     def __init__(self):
@@ -55,7 +56,7 @@ class Window(QWidget):
         search_text = self.search_field.text()
 
         # make an API call with the controller script
-        search_results = 
+        search_results = controller.make_call(search_text)
 
 def main():
     app = QApplication(sys.argv)
