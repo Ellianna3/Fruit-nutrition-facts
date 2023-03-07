@@ -18,8 +18,31 @@ def make_call(query: str) -> str:
 
     # make the call
     response  = requests.get(url)
-    print()
+    results = ""
+    if response.ok:
+        results = get_top_results(response)
+        results = format_results(results)
+    else:
+        results = "There was an error. Please try later."
+    return results
 
-# get the top results (we don't want hundreds)
+def get_top_results(response, max=4) -> list:
+    """takes an API response and returns a list of the fist max # of results"""
+    results = response.json()["results"]
+    return results[:max]
 
-# format results
+def format_results(results) -> str:
+    """take results (a list), extract the info we need and return a 
+    formatted string"""
+    formatted_results = ""
+    for item in results:
+        title = item.get("title")
+        formatted_results += "Title: " + title + "\n\t"
+        authors = item.get("authors")
+        author = authors[0].get("name")
+        formatted_results += "by " + author + "\n"
+    return formatted_results
+
+if __name__ == "__main__":
+    call_results = make_call("douglas")
+    print(call_results)

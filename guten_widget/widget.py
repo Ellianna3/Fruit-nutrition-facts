@@ -9,7 +9,7 @@ import controller
 class Window(QWidget):
     def __init__(self):
         super().__init__()
-        self.resize(300, 300)
+        self.resize(300, 500)
         self.setWindowTitle("The Guten-widget")
         self.setWindowIcon(QIcon("icon.jpg"))
         self.UI()
@@ -40,13 +40,14 @@ class Window(QWidget):
         search_layout.addWidget(self.search_field)
         search_layout.addWidget(search_button)
 
-        results_text = QTextEdit("Results.")
-        results_text.setFont(QFont("Calibri", 12))
+        self.results_text = QTextEdit("Results.")
+        self.results_text.setFont(QFont("Calibri", 12))
 
+        # Add all our widgets
         layout.addWidget(title_label)
         layout.addWidget(description_label)
         layout.addLayout(search_layout)
-        layout.addWidget(results_text)
+        layout.addWidget(self.results_text)
     
     def search(self):
         """get the search text and use it to make an API call to get
@@ -57,6 +58,9 @@ class Window(QWidget):
 
         # make an API call with the controller script
         search_results = controller.make_call(search_text)
+
+        # Display the results
+        self.results_text.setText(search_results)
 
 def main():
     app = QApplication(sys.argv)
